@@ -8,13 +8,15 @@ chmod +x proxy-port.sh
 
 2️⃣ Run with proper arguments:
 ```
-./proxy-port.sh <from_port> <to_port> <tcp|udp|tcp & udp>
+./proxy-port.sh <from_server> <from_port> <to_server> <to_port> <tcp|udp|tcp & udp>
 ```
+
 Examples:
 ```
-./proxy-port.sh 8080 9090 tcp          # Proxy TCP
-./proxy-port.sh 5353 5354 udp          # Proxy UDP
-./proxy-port.sh 8000 9000 "tcp & udp"  # Proxy both TCP & UDP
+./proxy-port.sh 0.0.0.0 8080 192.168.1.10 9090 tcp         # TCP proxy from all interfaces
+./proxy-port.sh 192.168.1.100 5353 10.0.0.5 5354 udp       # UDP proxy from specific source
+./proxy-port.sh 0.0.0.0 8000 127.0.0.1 9000 "tcp & udp"    # Both TCP & UDP locally
+
 ```
 3️⃣ Check running proxies:
 ```
@@ -41,7 +43,7 @@ To start the TCP/UDP proxy, run:
 ```
 docker run -d --name proxy \
     --network host \
-    proxy-container 8080 9090 "tcp & udp"
+    proxy-container 0.0.0.0 8000 127.0.0.1 9000 "tcp & udp"
 
     The --network host flag allows direct port binding without extra Docker NAT.
     Modify 8080 and 9090 for different ports as needed.
